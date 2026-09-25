@@ -23,4 +23,9 @@ jobs:
       - name: Create the GitHub release with the extension package
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" apps/extension/.output/*.zip --generate-notes --verify-tag
+        # Uses docs/releases/<tag>.md for the notes when it exists, otherwise GitHub's list of changes.
+        run: |
+          notes="docs/releases/$GITHUB_REF_NAME.md"
+          if [ -f "$notes" ]; then set -- --notes-file "$notes"; else set -- --generate-notes; fi
+          gh release create "$GITHUB_REF_NAME" apps/extension/.output/*.zip \
+            --title "Oppenly ${GITHUB_REF_NAME#v}" --verify-tag "$@"

@@ -31,7 +31,8 @@ pnpm zip:extension
 
 The package is `apps/extension/.output/oppenly-1.0.0-chrome.zip` (the version comes from
 `apps/extension/package.json`). Tagging a version (`git tag v1.0.0 && git push origin v1.0.0`)
-also builds it on GitHub and attaches it to a release.
+also builds it on GitHub and attaches it to a release. The release notes come from
+`docs/releases/v1.0.0.md` (named after the tag); without that file, GitHub lists the changes.
 
 Test the exact file you will upload:
 
@@ -182,7 +183,8 @@ changed in the resubmission, and submit again.
 2. Point the website at the listing: in [`apps/site/index.html`](../apps/site/index.html), change
    the `href` of the links marked `data-install` to the store URL, and their text to "Add to
    Chrome". Do the same for the install link in the [README](../README.md).
-3. For every update: raise the version in `apps/extension/package.json`, tag it
+3. For every update: raise the version in `apps/extension/package.json`, write the release notes
+   in `docs/releases/v1.0.1.md`, tag it
    (`git tag v1.0.1 && git push origin v1.0.1`), download the zip from the GitHub release, upload
    it in the dashboard's Package tab and submit. Adding a new required permission disables the
    extension for existing users until they accept it, so add new permissions as optional.
