@@ -1,0 +1,16 @@
+/* The nav column's white background and divider run the full page height. */
+body {
+  background: linear-gradient(
+    to right,
+    var(--op-surface) 247px,
+    var(--op-line) 247px,
+    var(--op-line) 248px,
+    var(--op-bg) 248px
+  );
+}
+
+@media (max-width: 860px) {
+  body {
+    background: var(--op-bg);
+  }
+}

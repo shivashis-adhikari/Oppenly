@@ -1,0 +1,28 @@
+{
+  "name": "@oppenly/engine",
+  "version": "1.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./ai": "./src/ai/index.ts",
+    "./types": "./src/types.ts",
+    "./vault": "./src/vault.ts",
+    "./labels": "./src/labels.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "harper.js": "2.10.0",
+    "wink-eng-lite-web-model": "1.8.1",
+    "wink-nlp": "2.4.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  }
+}

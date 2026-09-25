@@ -1,0 +1,36 @@
+{
+  "name": "@oppenly/extension",
+  "version": "1.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "prepare-assets": "node scripts/prepare-assets.mjs",
+    "dev": "pnpm prepare-assets && wxt",
+    "build": "pnpm prepare-assets && wxt build",
+    "build:firefox": "pnpm prepare-assets && wxt build -b firefox",
+    "zip": "pnpm prepare-assets && wxt zip",
+    "zip:firefox": "pnpm prepare-assets && wxt zip -b firefox",
+    "typecheck": "pnpm prepare-assets && wxt prepare && tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "@oppenly/engine": "workspace:*",
+    "@oppenly/ui": "workspace:*",
+    "@preact/signals": "2.11.2",
+    "harper.js": "2.10.0",
+    "preact": "10.29.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@preact/preset-vite": "2.10.6",
+    "@types/node": "22.20.4",
+    "sharp": "0.35.4",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "vitest": "3.2.7",
+    "wxt": "0.21.4"
+  }
+}

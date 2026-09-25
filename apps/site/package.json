@@ -1,0 +1,24 @@
+{
+  "name": "@oppenly/site",
+  "version": "1.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "screenshots": "node scripts/screenshots.mjs",
+    "typecheck": "tsc --noEmit",
+    "store-assets": "node scripts/store-assets.mjs"
+  },
+  "dependencies": {
+    "@oppenly/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@types/node": "22.20.4",
+    "sharp": "0.35.4",
+    "vite": "7.3.6"
+  }
+}

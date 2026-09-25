@@ -1,0 +1,49 @@
+Oppenly
+Copyright 2026 Shivashis Adhikari
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It includes the following third-party software and data, each under its own license.
+
+Harper (harper.js), the grammar engine
+  Copyright 2024 Automattic Inc.
+  Apache License, Version 2.0
+  https://github.com/Automattic/harper
+
+wink-nlp and wink-eng-lite-web-model, language analysis
+  Copyright (c) 2017-2025 GRAYPE Systems Private Limited
+  MIT License
+  https://github.com/winkjs/wink-nlp
+
+SCOWL (Spell Checker Oriented Word Lists), used for the common-word list
+  Copyright 2000-2016 by Kevin Atkinson
+  Permission to use, copy, modify, distribute and sell these word lists, the associated
+  scripts, the output created from the scripts, and its documentation for any purpose is
+  hereby granted without fee, provided that the above copyright notice appears in all copies
+  and that both that copyright notice and this permission notice appear in supporting
+  documentation. Kevin Atkinson makes no representations about the suitability of this array
+  for any purpose. It is provided "as is" without express or implied warranty.
+  http://wordlist.aspell.net/
+
+ProseMirror, the web app's editor
+  Copyright (C) 2015-2017 by Marijn Haverbeke and others
+  MIT License
+  https://prosemirror.net/
+
+fflate, reading and writing Word and OpenDocument files
+  Copyright (c) 2026 Arjun Barrett
+  MIT License
+  https://github.com/101arrowz/fflate
+
+Preact and @preact/signals, the interface library
+  Copyright (c) 2015-present Jason Miller; Copyright (c) 2022-present Preact Team
+  MIT License
+  https://preactjs.com/
+
+Figtree, the typeface
+  Copyright 2022 The Figtree Project Authors
+  SIL Open Font License, Version 1.1 (see packages/ui/src/fonts/OFL.txt)
+  https://github.com/erikdkennedy/figtree
+
+Development-only tools (WXT, Vite, TypeScript, Biome, Vitest, Playwright) are not included in
+the published extension or web app.

@@ -1,0 +1,51 @@
+/**
+ * Correct, varied writing. The engine should raise no correctness issues on any of it.
+ * Style suggestions are allowed but should be rare.
+ */
+export const CLEAN_TEXTS: string[] = [
+  `Hi Maria,
+
+Thanks for sending the draft over. I read it this morning and the structure works well. The second section could use one more example, but the argument is clear. Could we meet on Thursday to go through the last few changes?
+
+Best,
+Daniel`,
+  `The committee reviewed the proposal and approved the budget for next year. Each department will receive its allocation in March. If you have questions about the process, please contact the finance office.`,
+  `We shipped the new search feature last week. It indexes documents as they are saved, so results appear within a second. Early feedback has been positive, and the team is now working on filters.`,
+  `She was born in Lisbon and moved to London when she was twelve. Her first novel, written over three winters, won a prize that nobody expected it to win.`,
+  `To install the package, run the command below. The installer checks your version of Node and warns you if it is too old.`,
+  `There are three reasons we chose this approach. First, it keeps the data on the device. Second, it is fast. Third, it is easy to audit.`,
+  `I'm not sure the numbers add up. Can you walk me through how you got to the final figure?`,
+  `The results suggest that sleep quality improves when participants exercise in the morning rather than the evening.`,
+  `He told me he would be late, so I started without him. By the time he arrived, we had finished the first two items.`,
+  `Our office is closed on public holidays. During that time, urgent requests can be sent to the on-call team, who will respond within four hours.`,
+  `The children played in the garden while their parents talked about the weekend.`,
+  `If the server does not respond within ten seconds, the client retries the request up to three times.`,
+  `Thank you for your patience while we looked into this. The issue was caused by an expired certificate, and it has now been renewed.`,
+  `Neither option is perfect, but the second one costs less and takes fewer people to maintain.`,
+  `Their house is next to the river, and there is a small bridge that leads to the park.`,
+  `It's been a long week. We're all looking forward to the break.`,
+  `The data were collected over six months and analysed using standard methods.`,
+  `She asked whether the meeting had been moved, and I told her it hadn't.`,
+  `We need to decide by Friday whether to renew the contract.`,
+  `Most of the team works remotely, although a few people come into the office on Tuesdays.`,
+  `The book, which was published in 1998, is still widely read today.`,
+  `Please find the signed agreement attached. Let me know if anything else is needed.`,
+  `After the storm passed, the streets were quiet again.`,
+  `This version is faster than the previous one, and it uses less memory.`,
+  `They're planning to launch in spring, and their marketing team has already started.`,
+  `You're right that the deadline is tight, but I think we can still make it.`,
+  `Its main advantage is simplicity: there is only one setting to change.`,
+  `Whose laptop is this? Someone left it in the meeting room.`,
+  `The manager, along with her assistants, is attending the conference.`,
+  `Good morning everyone. Today we will look at how the new process works and what changes for each team.`,
+  `I have been working on this problem for two days, and I finally found the cause.`,
+  `The article argues that cities should invest in public transport before building new roads.`,
+  `When I was a child, I spent every summer at my grandmother's farm.`,
+  `We went there last year and loved it.`,
+  `Could you send me the report when you have a moment?`,
+  `The cat sat on the windowsill and watched the rain.`,
+  `Mathematics is my favourite subject, and physics comes a close second.`,
+  `The news was better than we had hoped.`,
+  `Everyone in the room agreed that the plan made sense.`,
+  `The software is free to use, and the source code is available online.`,
+];
