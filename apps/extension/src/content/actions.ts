@@ -105,11 +105,19 @@ export function startRewrite(
   cancelRewrite();
   const req = `r${++seq}`;
   selectionBar.value = null;
+  // Open below the whole selection, not just its first line.
+  const rects = session.adapter.rects(start, end);
+  const first = rects[0];
+  const last = rects[rects.length - 1];
+  const around =
+    first && last
+      ? { x: first.x, y: first.y, width: first.width, height: last.y + last.height - first.y }
+      : anchor;
   rewriteView.value = {
     session: sessionId,
     start,
     end,
-    anchor,
+    anchor: around,
     mode,
     label,
     custom,

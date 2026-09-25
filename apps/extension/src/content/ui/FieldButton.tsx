@@ -94,18 +94,25 @@ export function FieldButton() {
 }
 
 function PowerMenu({ left, top }: { left: number; top: number }) {
-  const width = 236;
-  const height = 188;
+  const width = 264;
+  // Roughly the menu's height; it opens above the button when that much room is free.
+  const height = 196;
   const x = Math.max(8, Math.min(left + SIZE - width, window.innerWidth - width - 8));
-  const y = top - height - 8 > 8 ? top - height - 8 : top + SIZE + 8;
+  // Anchor by the edge next to the button so the menu never covers it, whatever its height.
+  const place =
+    top - height - 8 > 8
+      ? { bottom: `${window.innerHeight - top + 8}px` }
+      : { top: `${top + SIZE + 8}px` };
   return (
     <div
       class="op-pop op-menu"
       role="menu"
-      style={{ left: `${x}px`, top: `${y}px`, width: `${width}px` }}
+      style={{ left: `${x}px`, width: `${width}px`, ...place }}
       onMouseDown={(e) => e.preventDefault()}
     >
-      <div class="op-menu__title">Oppenly on {HOST}</div>
+      <div class="op-menu__title" title={HOST}>
+        Oppenly on {HOST}
+      </div>
       <button type="button" role="menuitem" class="op-menu__item" onClick={() => void pause(60)}>
         <Icon name="pause" size={16} />
         Pause for 1 hour

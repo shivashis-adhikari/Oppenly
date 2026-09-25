@@ -27,7 +27,12 @@ export function SelectionBar({ session }: { session: DocSession }) {
       to: sel.to,
       mode,
       label,
-      anchor: { x: sel.rect.x, y: sel.rect.y, height: sel.rect.height },
+      // Open below the whole selection, not just its first line.
+      anchor: {
+        x: sel.rect.x,
+        y: sel.rect.y,
+        height: session.view.coordsAtPos(sel.to).bottom - sel.rect.y,
+      },
     });
   return (
     <div

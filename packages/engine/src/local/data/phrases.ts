@@ -238,8 +238,10 @@ export const CLICHES: PhraseTable = {
 export const HEDGES: PhraseTable = {
   'i just wanted to': ['I wanted to', 'I want to'],
   'just wanted to': ['wanted to'],
-  'i was just wondering if': ['could'],
-  'i was wondering if': ['could'],
+  'i was just wondering if you could': ['could you'],
+  'i was wondering if you could': ['could you'],
+  'i was just wondering if you would': ['would you'],
+  'i was wondering if you would': ['would you'],
   'just checking in': ['checking in'],
   'just following up': ['following up'],
   'i think that': [''],

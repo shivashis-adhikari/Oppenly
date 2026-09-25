@@ -56,6 +56,8 @@ const CASES: [string, string, string][] = [
   ['The policy had a big affect on sales.', 'affect', 'effect'],
   ['He is more taller than his brother.', 'more taller', 'taller'],
   ['She dont know the answer.', 'dont', "don't"],
+  ['I was wondering if you could send me the file.', 'I was wondering if you could', 'Could you'],
+  ['Hey guys, the meeting starts at noon.', 'Hey guys', 'Hi everyone'],
 ];
 
 describe('catches common errors', () => {
@@ -69,6 +71,11 @@ describe('catches common errors', () => {
       ).toBeTruthy();
     });
   }
+});
+
+test('does not turn a question into nonsense', async () => {
+  const out = await check('I was wondering if the report is finished.');
+  expect(out.filter((s) => s.original.toLowerCase().startsWith('i was wondering'))).toEqual([]);
 });
 
 describe('no false alarms on correct writing', () => {

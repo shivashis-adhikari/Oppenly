@@ -103,6 +103,12 @@ export function RewritePopover() {
           {view.status === 'running' && <span class="op-caret" />}
         </div>
       )}
+      {view.source && (
+        <span class="op-source">
+          <Icon name={view.source === 'ai' ? 'globe' : 'lock'} size={12} />
+          {view.source === 'ai' && provider ? provider : SOURCE_LABEL[view.source]}
+        </span>
+      )}
       <div class="op-rewrite__actions">
         <button
           type="button"
@@ -120,6 +126,7 @@ export function RewritePopover() {
         >
           Insert below
         </button>
+        <span style={{ flex: 1 }} />
         <button
           type="button"
           class="op-icon"
@@ -150,13 +157,6 @@ export function RewritePopover() {
         >
           <Icon name="refresh" size={16} />
         </button>
-        <span style={{ flex: 1 }} />
-        {view.source && (
-          <span class="op-source">
-            <Icon name={view.source === 'ai' ? 'globe' : 'lock'} size={12} />
-            {view.source === 'ai' && provider ? provider : SOURCE_LABEL[view.source]}
-          </span>
-        )}
       </div>
     </div>
   );
