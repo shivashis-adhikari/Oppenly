@@ -1,9 +1,9 @@
-import { Icon } from '@oppenly/ui';
 import { useState } from 'preact/hooks';
-import type { SectionProps } from './types';
+import { Icon } from '../icons';
+import type { SectionProps } from './model';
 
-function download(name: string, text: string, type = 'text/plain') {
-  const url = URL.createObjectURL(new Blob([text], { type }));
+export function download(name: string, text: string | Blob, type = 'text/plain') {
+  const url = URL.createObjectURL(typeof text === 'string' ? new Blob([text], { type }) : text);
   const a = document.createElement('a');
   a.href = url;
   a.download = name;

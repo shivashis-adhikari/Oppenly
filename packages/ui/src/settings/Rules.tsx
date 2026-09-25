@@ -1,8 +1,7 @@
 import type { Category, RuleInfo } from '@oppenly/engine';
-import { CATEGORY_LABEL, Switch } from '@oppenly/ui';
 import { useEffect, useState } from 'preact/hooks';
-import { request } from '../../../shared/hooks';
-import type { SectionProps } from './types';
+import { CATEGORY_LABEL, Switch } from '../components';
+import type { SectionProps } from './model';
 
 const CATS: Category[] = ['correctness', 'clarity', 'engagement', 'delivery'];
 
@@ -16,11 +15,15 @@ function humanize(rule: string): string {
     .replace(/^./, (c) => c.toUpperCase());
 }
 
-export function Rules({ settings, update }: SectionProps) {
+export function Rules({
+  settings,
+  update,
+  loadRules,
+}: SectionProps & { loadRules: () => Promise<RuleInfo[]> }) {
   const [rules, setRules] = useState<RuleInfo[] | null>(null);
   useEffect(() => {
-    void request<RuleInfo[]>({ t: 'rule-info' }).then(setRules, () => setRules([]));
-  }, []);
+    void loadRules().then(setRules, () => setRules([]));
+  }, [loadRules]);
   const known = new Set(rules?.map((r) => r.id));
   const offElsewhere = settings.disabledRules.filter((r) => !known.has(r));
   const toggle = (id: string, on: boolean) =>

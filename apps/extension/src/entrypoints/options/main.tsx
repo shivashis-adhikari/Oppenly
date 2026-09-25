@@ -1,17 +1,36 @@
 import '@oppenly/ui/app.css';
+import '@oppenly/ui/settings.css';
 import './options.css';
+import type { RuleInfo } from '@oppenly/engine';
+import { onDeviceAvailability } from '@oppenly/engine/ai';
+import { deleteProvider, getProvider, listProviders, saveProvider } from '@oppenly/engine/vault';
 import { Icon, type IconName, Wordmark } from '@oppenly/ui';
+import { Dictionary, type ProviderBackend, Providers, Rules, Writing } from '@oppenly/ui/settings';
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { useSettings } from '../../shared/hooks';
+import { request, useSettings } from '../../shared/hooks';
 import { About } from './sections/About';
-import { Dictionary } from './sections/Dictionary';
 import { General } from './sections/General';
 import { Privacy } from './sections/Privacy';
-import { Providers } from './sections/Providers';
-import { Rules } from './sections/Rules';
 import { Sites } from './sections/Sites';
-import { Writing } from './sections/Writing';
+
+/** Provider keys live in the extension's IndexedDB; network calls run in the background worker. */
+const backend: ProviderBackend = {
+  list: listProviders,
+  get: getProvider,
+  save: saveProvider,
+  remove: deleteProvider,
+  requestAccess: (pattern) => browser.permissions.request({ origins: [pattern] }),
+  releaseAccess: async (pattern) => {
+    await browser.permissions.remove({ origins: [pattern] });
+  },
+  test: (presetId) => request<{ ms: number }>({ t: 'test-provider', presetId }),
+  listModels: async (presetId) =>
+    (await request<{ models: string[] }>({ t: 'list-models', presetId })).models,
+  onDeviceAvailability,
+};
+
+const loadRules = () => request<RuleInfo[]>({ t: 'rule-info' });
 
 const SECTIONS: { id: string; label: string; icon: IconName }[] = [
   { id: 'general', label: 'General', icon: 'sliders' },
@@ -64,10 +83,10 @@ function Options() {
         <div class="os-content">
           {current.id === 'general' && <General {...props} />}
           {current.id === 'writing' && <Writing {...props} />}
-          {current.id === 'rules' && <Rules {...props} />}
+          {current.id === 'rules' && <Rules {...props} loadRules={loadRules} />}
           {current.id === 'dictionary' && <Dictionary {...props} />}
           {current.id === 'sites' && <Sites {...props} />}
-          {current.id === 'ai' && <Providers {...props} />}
+          {current.id === 'ai' && <Providers {...props} backend={backend} />}
           {current.id === 'privacy' && <Privacy {...props} />}
           {current.id === 'about' && <About />}
         </div>

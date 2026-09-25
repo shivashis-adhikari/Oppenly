@@ -8,7 +8,10 @@
     ".": "./src/index.ts",
     "./tokens.css": "./src/tokens.css",
     "./app.css": "./src/app.css",
-    "./fonts.css": "./src/fonts.css"
+    "./fonts.css": "./src/fonts.css",
+    "./settings": "./src/settings/index.ts",
+    "./settings.css": "./src/settings.css",
+    "./settings-model": "./src/settings/model.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"

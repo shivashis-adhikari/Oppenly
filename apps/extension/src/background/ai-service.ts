@@ -10,9 +10,9 @@ import {
   type ProviderConfig,
   type RewriteMode,
 } from '@oppenly/engine/ai';
+import { getProvider } from '@oppenly/engine/vault';
 import type { AiStatus } from '../shared/messages';
 import type { Settings } from '../shared/settings';
-import { getProvider } from '../shared/vault';
 
 interface CachedEdits {
   /** Suggestions with offsets relative to the paragraph. */

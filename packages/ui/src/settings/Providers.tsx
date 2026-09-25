@@ -1,21 +1,30 @@
 import {
   getPreset,
-  onDeviceAvailability,
   PROVIDERS,
+  type ProviderConfig,
   type ProviderPreset,
   rankModelsForChecking,
 } from '@oppenly/engine/ai';
-import { Icon, Switch } from '@oppenly/ui';
+import type { ProviderSummary } from '@oppenly/engine/vault';
 import { useEffect, useState } from 'preact/hooks';
-import { request } from '../../../shared/hooks';
-import {
-  deleteProvider,
-  getProvider,
-  listProviders,
-  type ProviderSummary,
-  saveProvider,
-} from '../../../shared/vault';
-import type { SectionProps } from './types';
+import { Switch } from '../components';
+import { Icon } from '../icons';
+import type { SectionProps } from './model';
+
+/** What the providers page needs from the app it runs in. */
+export interface ProviderBackend {
+  list(): Promise<ProviderSummary[]>;
+  get(presetId: string): Promise<ProviderConfig | null>;
+  save(config: ProviderConfig): Promise<void>;
+  remove(presetId: string): Promise<void>;
+  /** Ask for access to a provider address (the extension asks the browser). Resolves false if refused. */
+  requestAccess(pattern: string): Promise<boolean>;
+  releaseAccess(pattern: string): Promise<void>;
+  /** Send a tiny request with the saved settings. Resolves with the round-trip time. */
+  test(presetId: string): Promise<{ ms: number }>;
+  listModels(presetId: string): Promise<string[]>;
+  onDeviceAvailability(): Promise<string>;
+}
 
 const LOCAL_IDS = ['on-device', 'ollama', 'lmstudio', 'llamacpp'];
 const CUSTOM_IDS = ['custom-openai', 'custom-anthropic', 'custom-gemini'];
@@ -32,10 +41,14 @@ function originPattern(url: string): string | null {
   }
 }
 
-export function Providers({ settings, update }: SectionProps) {
+export function Providers({
+  settings,
+  update,
+  backend,
+}: SectionProps & { backend: ProviderBackend }) {
   const [saved, setSaved] = useState<ProviderSummary[]>([]);
   const [selected, setSelected] = useState<string>(settings.ai.provider ?? 'on-device');
-  const reload = () => void listProviders().then(setSaved);
+  const reload = () => void backend.list().then(setSaved);
   useEffect(reload, []);
   const active = settings.ai.provider ? getPreset(settings.ai.provider) : undefined;
 
@@ -133,12 +146,14 @@ export function Providers({ settings, update }: SectionProps) {
 
       {selected === 'on-device' ? (
         <OnDevice
+          backend={backend}
           active={settings.ai.provider === 'on-device'}
           onUse={() => void update((s) => ({ ai: { ...s.ai, provider: 'on-device' } }))}
         />
       ) : (
         <ProviderForm
           key={selected}
+          backend={backend}
           preset={getPreset(selected)!}
           summary={saved.find((s) => s.presetId === selected)}
           active={settings.ai.provider === selected}
@@ -157,11 +172,19 @@ export function Providers({ settings, update }: SectionProps) {
   );
 }
 
-function OnDevice({ active, onUse }: { active: boolean; onUse: () => void }) {
+function OnDevice({
+  backend,
+  active,
+  onUse,
+}: {
+  backend: ProviderBackend;
+  active: boolean;
+  onUse: () => void;
+}) {
   const [status, setStatus] = useState<string>('checking');
   const [progress, setProgress] = useState<number | null>(null);
   useEffect(() => {
-    void onDeviceAvailability().then(setStatus);
+    void backend.onDeviceAvailability().then(setStatus);
   }, []);
   const download = async () => {
     const lm = (
@@ -180,7 +203,7 @@ function OnDevice({ active, onUse }: { active: boolean; onUse: () => void }) {
     });
     session.destroy();
     setProgress(null);
-    setStatus(await onDeviceAvailability());
+    setStatus(await backend.onDeviceAvailability());
   };
   const label: Record<string, string> = {
     checking: 'Checking…',
@@ -231,12 +254,14 @@ function OnDevice({ active, onUse }: { active: boolean; onUse: () => void }) {
 }
 
 function ProviderForm({
+  backend,
   preset,
   summary,
   active,
   onSaved,
   onRemoved,
 }: {
+  backend: ProviderBackend;
   preset: ProviderPreset;
   summary: ProviderSummary | undefined;
   active: boolean;
@@ -269,8 +294,8 @@ function ProviderForm({
 
   /** Write the current form to the vault. Keeps a previously saved key when the field is empty. */
   const persist = async (models: { check: string; write: string }) => {
-    const existing = await getProvider(preset.id);
-    await saveProvider({
+    const existing = await backend.get(preset.id);
+    await backend.save({
       presetId: preset.id,
       baseUrl: baseUrl.trim().replace(/\/+$/, ''),
       apiKey: apiKey.trim() || existing?.apiKey || '',
@@ -291,7 +316,7 @@ function ProviderForm({
       return;
     }
     // Ask the browser for access to this one address. Must run first, inside the click.
-    const granted = await browser.permissions.request({ origins: [pattern] });
+    const granted = await backend.requestAccess(pattern);
     if (!granted) {
       setStatus({
         kind: 'err',
@@ -320,7 +345,7 @@ function ProviderForm({
     setBusy(true);
     setStatus(null);
     try {
-      const { ms } = await request<{ ms: number }>({ t: 'test-provider', presetId: preset.id });
+      const { ms } = await backend.test(preset.id);
       setStatus({ kind: 'ok', text: `Connected. Replied in ${ms} ms.` });
     } catch (err) {
       setStatus({ kind: 'err', text: (err as Error).message });
@@ -333,10 +358,7 @@ function ProviderForm({
     setBusy(true);
     setStatus(null);
     try {
-      const { models: list } = await request<{ models: string[] }>({
-        t: 'list-models',
-        presetId: preset.id,
-      });
+      const list = await backend.listModels(preset.id);
       const ranked = rankModelsForChecking(list);
       setModels(ranked);
       if (!checkModel.trim() && ranked[0]) {
@@ -359,10 +381,10 @@ function ProviderForm({
   };
 
   const remove = async () => {
-    await deleteProvider(preset.id);
+    await backend.remove(preset.id);
     const pattern = originPattern(baseUrl);
     if (pattern && !pattern.startsWith('http://'))
-      await browser.permissions.remove({ origins: [pattern] }).catch(() => false);
+      await backend.releaseAccess(pattern).catch(() => undefined);
     await onRemoved();
     setCheckModel('');
     setWriteModel('');
@@ -475,7 +497,7 @@ function ProviderForm({
             />
             <span>
               <strong>Send my text to {preset.name}.</strong> When AI features run, the text you
-              check or rewrite goes directly from your browser to {preset.name}
+              check or rewrite is sent from this computer straight to {preset.name}
               {origin ? ` (${origin})` : ''} with your API key, and {preset.name}’s terms and{' '}
               {preset.privacyUrl ? (
                 <a href={preset.privacyUrl} target="_blank" rel="noreferrer">

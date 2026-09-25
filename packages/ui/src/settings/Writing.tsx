@@ -1,64 +1,14 @@
-import type { Category, Goals } from '@oppenly/engine';
-import { CATEGORY_HINT, CATEGORY_LABEL, Select, Switch } from '@oppenly/ui';
-import { DIALECTS } from '../../../shared/settings';
-import type { SectionProps } from './types';
+import type { Category } from '@oppenly/engine';
+import { CATEGORY_HINT, CATEGORY_LABEL, Select, Switch } from '../components';
+import { DIALECTS, GOAL_OPTIONS, type SectionProps } from './model';
 
 const CATS: Category[] = ['correctness', 'clarity', 'engagement', 'delivery'];
 
-const GOAL_OPTIONS: {
-  key: keyof Goals;
-  label: string;
-  hint: string;
-  options: { value: string; label: string }[];
-}[] = [
-  {
-    key: 'audience',
-    label: 'Audience',
-    hint: 'Who will read your writing',
-    options: [
-      { value: 'general', label: 'General' },
-      { value: 'knowledgeable', label: 'Knowledgeable' },
-      { value: 'expert', label: 'Expert' },
-    ],
-  },
-  {
-    key: 'formality',
-    label: 'Formality',
-    hint: 'How formal your writing should sound',
-    options: [
-      { value: 'informal', label: 'Informal' },
-      { value: 'neutral', label: 'Neutral' },
-      { value: 'formal', label: 'Formal' },
-    ],
-  },
-  {
-    key: 'domain',
-    label: 'Domain',
-    hint: 'The kind of writing',
-    options: [
-      { value: 'general', label: 'General' },
-      { value: 'academic', label: 'Academic' },
-      { value: 'business', label: 'Business' },
-      { value: 'technical', label: 'Technical' },
-      { value: 'creative', label: 'Creative' },
-      { value: 'casual', label: 'Casual' },
-      { value: 'email', label: 'Email' },
-    ],
-  },
-  {
-    key: 'intent',
-    label: 'Intent',
-    hint: 'What you want to achieve',
-    options: [
-      { value: 'inform', label: 'Inform' },
-      { value: 'describe', label: 'Describe' },
-      { value: 'convince', label: 'Convince' },
-      { value: 'tell-a-story', label: 'Tell a story' },
-    ],
-  },
-];
-
-export function Writing({ settings, update }: SectionProps) {
+export function Writing({
+  settings,
+  update,
+  goalsHint = 'Used on every site unless you set site-specific goals from the assistant’s Insights tab.',
+}: SectionProps & { goalsHint?: string }) {
   return (
     <>
       <header class="os-title">
@@ -104,9 +54,7 @@ export function Writing({ settings, update }: SectionProps) {
       <section class="os-panel">
         <div class="os-panel__head">
           <h3>Default goals</h3>
-          <p>
-            Used on every site unless you set site-specific goals from the assistant’s Insights tab.
-          </p>
+          <p>{goalsHint}</p>
         </div>
         {GOAL_OPTIONS.map((g) => (
           <div key={g.key} class="os-row">

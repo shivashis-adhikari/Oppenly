@@ -1,8 +1,10 @@
-import type { Category, Dialect, EngineSettings, Goals } from '@oppenly/engine';
-import { DEFAULT_GOALS } from '@oppenly/engine/types';
+import type { Goals } from '@oppenly/engine';
+import { COMMON_DEFAULTS, type CommonSettings } from '@oppenly/ui/settings-model';
+
+export { DIALECTS, engineSettingsFor } from '@oppenly/ui/settings-model';
 
 /** Everything the user can change. Stored in `chrome.storage.local` (never synced, never uploaded). */
-export interface Settings {
+export interface Settings extends CommonSettings {
   /** Master switch. */
   enabled: boolean;
   /** Epoch ms until which checking is paused everywhere; 0 when not paused. */
@@ -11,41 +13,18 @@ export interface Settings {
   disabledSites: string[];
   /** Show the Oppenly button inside text fields. */
   showButton: boolean;
-  dialect: Dialect;
-  oxfordComma: boolean;
-  /** Default goals. */
-  goals: Goals;
   /** Per-site goals, keyed by hostname. */
   siteGoals: Record<string, Goals>;
-  disabledRules: string[];
-  disabledCategories: Category[];
-  /** Personal dictionary. */
-  dictionary: string[];
-  ai: {
-    /** Preset id of the provider in use, or null for local-only. */
-    provider: string | null;
-    /** Also ask the AI provider for suggestions while typing (in addition to local checks). */
-    liveCheck: boolean;
-  };
-  /** Distinguish categories by underline shape as well as colour. */
-  underlineShapes: boolean;
   welcomeSeen: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
+  ...COMMON_DEFAULTS,
   enabled: true,
   pausedUntil: 0,
   disabledSites: [],
   showButton: true,
-  dialect: 'american',
-  oxfordComma: true,
-  goals: DEFAULT_GOALS,
   siteGoals: {},
-  disabledRules: [],
-  disabledCategories: [],
-  dictionary: [],
-  ai: { provider: null, liveCheck: true },
-  underlineShapes: false,
   welcomeSeen: false,
 };
 
@@ -85,22 +64,3 @@ export function isActiveOn(s: Settings, host: string): boolean {
 export function goalsFor(s: Settings, host: string): Goals {
   return s.siteGoals[host] ?? s.goals;
 }
-
-export function engineSettingsFor(s: Settings): Partial<EngineSettings> {
-  return {
-    dialect: s.dialect,
-    oxfordComma: s.oxfordComma,
-    goals: s.goals,
-    disabledRules: s.disabledRules,
-    disabledCategories: s.disabledCategories,
-    dictionary: s.dictionary,
-  };
-}
-
-export const DIALECTS: { value: Dialect; label: string }[] = [
-  { value: 'american', label: 'American English' },
-  { value: 'british', label: 'British English' },
-  { value: 'canadian', label: 'Canadian English' },
-  { value: 'australian', label: 'Australian English' },
-  { value: 'indian', label: 'Indian English' },
-];

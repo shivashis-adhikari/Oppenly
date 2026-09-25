@@ -1,7 +1,7 @@
+import { clearVault } from '@oppenly/engine/vault';
 import { Icon, Modal } from '@oppenly/ui';
 import { useState } from 'preact/hooks';
 import { DEFAULT_SETTINGS } from '../../../shared/settings';
-import { clearVault } from '../../../shared/vault';
 import type { SectionProps } from './types';
 
 const POLICY = 'https://shivashis-adhikari.github.io/Oppenly/privacy.html';

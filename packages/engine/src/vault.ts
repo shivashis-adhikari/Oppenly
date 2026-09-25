@@ -1,10 +1,10 @@
-import type { ProviderConfig } from '@oppenly/engine/ai';
+import type { ProviderConfig } from './ai/providers';
 
 /**
- * Stores AI provider settings, including API keys, in the extension's own IndexedDB.
- * Content scripts run in the web page's origin and cannot open this database. Keys are
- * encrypted with a non-extractable AES-GCM key, so the raw key material never leaves the
- * browser's crypto store. Only the background worker and the settings page call this module.
+ * Stores AI provider settings, including API keys, in IndexedDB for the app's own origin (the
+ * extension's origin, or the local web app's). Web pages and content scripts on other sites
+ * cannot open this database. Keys are encrypted with a non-extractable AES-GCM key, so the raw
+ * key material never leaves the browser's crypto store.
  */
 
 const DB_NAME = 'oppenly-vault';

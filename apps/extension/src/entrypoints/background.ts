@@ -1,5 +1,6 @@
 import { Engine, type LocalRewriteMode, localRewrite, RULE_INFO } from '@oppenly/engine';
 import { getPreset, type RewriteMode } from '@oppenly/engine/ai';
+import { getProvider } from '@oppenly/engine/vault';
 import { createBinaryModuleFromUrl } from 'harper.js';
 import { AiService } from '../background/ai-service';
 import {
@@ -17,7 +18,6 @@ import {
   type Settings,
   updateSettings,
 } from '../shared/settings';
-import { getProvider } from '../shared/vault';
 
 const LOCAL_MODES: ReadonlySet<string> = new Set([
   'shorten',
