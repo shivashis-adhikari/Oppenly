@@ -67,6 +67,9 @@ describe('local rewrites', () => {
         'shorten',
       ),
     ).toBe('Because we are moving, we should wait.');
+    expect(
+      localRewrite('We should utilize the new tool in order to make a decision.', 'shorten'),
+    ).toBe('We should use the new tool to decide.');
   });
   test('formal', () => {
     expect(localRewrite("Hey, we're gonna need a lot of help with this stuff!", 'formal')).toBe(

@@ -14,6 +14,7 @@ import {
   type CategoryCounts,
   DEFAULT_SETTINGS,
   type EngineSettings,
+  type Goals,
   type Suggestion,
   type SuggestionSource,
 } from './types';
@@ -77,7 +78,7 @@ export class Engine {
   private async applySettings(): Promise<void> {
     const s = this.settings;
     await this.grammar.configure(s.dialect, s.oxfordComma, s.dictionary);
-    const key = JSON.stringify([s.dialect, s.goals, s.oxfordComma, [...s.dictionary].sort()]);
+    const key = JSON.stringify([s.dialect, s.oxfordComma, [...s.dictionary].sort()]);
     if (key !== this.settingsKey) {
       this.settingsKey = key;
       this.results.clear();
@@ -94,33 +95,42 @@ export class Engine {
     return p;
   }
 
-  private context(paragraph: Paragraph, docCounts: Map<string, number>): RuleContext {
+  private context(paragraph: Paragraph, docCounts: Map<string, number>, goals: Goals): RuleContext {
     const s = this.settings;
-    return { paragraph, goals: s.goals, dialect: s.dialect, oxfordComma: s.oxfordComma, docCounts };
+    return { paragraph, goals, dialect: s.dialect, oxfordComma: s.oxfordComma, docCounts };
   }
 
   private async checkParagraph(
     text: string,
     paragraph: Paragraph,
     docCounts: Map<string, number>,
+    goals: Goals,
   ): Promise<ParagraphResult> {
-    const cached = this.results.get(text);
+    const cacheKey = `${JSON.stringify(goals)}|${text}`;
+    const cached = this.results.get(cacheKey);
     if (cached) return cached;
     const grammar = await this.grammar.check(text);
     const rules: RuleFinding[] = [];
-    const ctx = this.context(paragraph, docCounts);
+    const ctx = this.context(paragraph, docCounts, goals);
     for (const rule of ALL_RULES) {
       if (DOCUMENT_RULES.has(rule)) continue;
       rule.check(ctx, (draft) => rules.push({ rule, draft }));
     }
     const result = { grammar, rules };
-    this.results.set(text, result);
+    this.results.set(cacheKey, result);
     trim(this.results, CACHE_LIMIT);
     return result;
   }
 
-  /** Analyse `text`. Optional `extra` suggestions (for example from an AI provider) are merged in. */
-  async analyze(text: string, extra: Suggestion[] = []): Promise<Analysis> {
+  /**
+   * Analyse `text`. Optional `extra` suggestions (for example from an AI provider) are merged in.
+   * `goals` overrides the default goals for this call only (for per-site goals).
+   */
+  async analyze(
+    text: string,
+    extra: Suggestion[] = [],
+    goals: Goals = this.settings.goals,
+  ): Promise<Analysis> {
     const spans = splitParagraphs(text);
     const paragraphs = spans.map((span) => this.tokenize(span.text));
 
@@ -138,7 +148,7 @@ export class Engine {
     for (let i = 0; i < spans.length; i++) {
       const span = spans[i]!;
       const paragraph = paragraphs[i]!;
-      const result = await this.checkParagraph(span.text, paragraph, docCounts);
+      const result = await this.checkParagraph(span.text, paragraph, docCounts, goals);
       const blocked = blockedRanges(paragraph);
       for (const f of result.grammar) {
         if (!this.keepGrammarFinding(f, span.text, paragraph, blocked)) continue;
@@ -160,7 +170,7 @@ export class Engine {
           }),
         );
       }
-      const ctx = this.context(paragraph, docCounts);
+      const ctx = this.context(paragraph, docCounts, goals);
       const docFindings: RuleFinding[] = [];
       for (const rule of DOCUMENT_RULES)
         rule.check(ctx, (draft) => docFindings.push({ rule, draft }));
@@ -204,7 +214,7 @@ export class Engine {
     const stats = computeStats(text, paragraphs);
     const tones = detectTones(text, paragraphs);
     const counts = countByCategory(suggestions);
-    const score = computeScore(suggestions, stats, this.settings.goals);
+    const score = computeScore(suggestions, stats, goals);
     return { text, suggestions, counts, stats, tones, score };
   }
 

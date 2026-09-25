@@ -7,7 +7,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./ai": "./src/ai/index.ts",
-    "./harper-wasm": "./src/local/harper-wasm.ts"
+    "./types": "./src/types.ts"
   },
   "scripts": {
     "test": "vitest run",

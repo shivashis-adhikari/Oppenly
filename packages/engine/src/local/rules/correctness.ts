@@ -357,7 +357,7 @@ function subjectNumber(
   // Walk back from the verb over adjectives/numbers to the head noun; require a clean
   // noun phrase at a clause start (no prepositional phrase in between).
   const noun = tokens[verbIndex - 1];
-  if (!noun || noun.pos !== 'NOUN') return null;
+  if (noun?.pos !== 'NOUN') return null;
   let k = verbIndex - 2;
   while (k >= 0 && posIs(tokens[k], 'ADJ', 'NUM', 'NOUN')) {
     if (tokens[k]!.pos === 'NOUN') return null; // compound nouns: head is ambiguous
@@ -828,7 +828,7 @@ export const verbAfterModal: Rule = {
         if (lowerIs(tokens[j], 'not', "n't")) j++;
         while (posIs(tokens[j], 'ADV') && j < i + 3) j++;
         const v = tokens[j];
-        if (!v || v.pos !== 'VERB') continue;
+        if (v?.pos !== 'VERB') continue;
         if (['have', 'be', 'been', 'being', 'had'].includes(v.lower)) continue;
         let base: string | undefined;
         if (/[a-z]s$/.test(v.lower) && v.lemma !== v.lower && !v.lower.endsWith('ss'))

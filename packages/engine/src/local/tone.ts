@@ -286,7 +286,9 @@ export function detectTones(text: string, paragraphs: Paragraph[]): ToneReading[
   raw.curious = (raw.curious ?? 0) + (questions / nSent) * 8;
   raw.informal =
     (raw.informal ?? 0) + (contractions / words) * 40 + emoji * 2 + (exclamations > 1 ? 2 : 0);
-  raw.formal = (raw.formal ?? 0) + (contractions === 0 && words > 30 ? 2 : 0) + longWords * 30;
+  const greeting = /^(hi|hey|hello|thanks|thank you)\b/i.test(text.trim());
+  raw.formal =
+    (raw.formal ?? 0) + (contractions === 0 && words > 60 && !greeting ? 0.8 : 0) + longWords * 20;
   raw.direct = (raw.direct ?? 0) + (imperatives / nSent) * 6;
   raw.optimistic = (raw.optimistic ?? 0) + Math.max(0, sentiment) * 6;
   raw.disappointed = (raw.disappointed ?? 0) + Math.max(0, -sentiment) * 6;

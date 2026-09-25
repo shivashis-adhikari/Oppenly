@@ -164,6 +164,14 @@ function contract(text: string): string {
   });
 }
 
+/** Complex words whose plain replacement is also shorter ("utilize" -> "use"). */
+const SHORTER_WORDS: PhraseTable = Object.fromEntries(
+  Object.entries(COMPLEX_WORDS).filter(
+    ([word, options]) =>
+      options[0] !== undefined && options[0] !== '' && options[0].length < word.length,
+  ),
+);
+
 const FILLERS =
   /(?<![\p{L}])(?:basically|actually|literally|totally|really|very|quite|just|simply)\s+(?=[\p{L}])/giu;
 
@@ -179,6 +187,7 @@ export function localRewrite(text: string, mode: LocalRewriteMode): string {
       out = applyTable(out, REDUNDANT, { allowRemoval: true });
       out = applyTable(out, HEDGES, { allowRemoval: true });
       out = applyTable(out, CLICHES, { allowRemoval: true });
+      out = applyTable(out, SHORTER_WORDS, { allowRemoval: false });
       out = out.replace(FILLERS, '');
       break;
     case 'formal':
