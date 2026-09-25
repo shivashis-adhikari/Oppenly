@@ -1,0 +1,154 @@
+/*
+ * Oppenly design tokens. The single source of truth for colour, type, space, shape and motion.
+ * Brand colours come from the logo: blue #1E74FE → #2786FE, ink #2B3341.
+ * Colour carries meaning only: brand blue for primary actions, one hue per suggestion category.
+ */
+
+:root,
+:host {
+  /* Brand */
+  --op-blue: #1e74fe;
+  --op-blue-hover: #1664e8;
+  --op-blue-active: #1255c9;
+  --op-blue-soft: #edf3ff;
+  --op-blue-soft-2: #dde9ff;
+  --op-blue-text: #1558d6;
+
+  /* Ink and surfaces */
+  --op-ink: #2b3341;
+  --op-ink-2: #5a6475;
+  --op-ink-3: #8b93a1;
+  --op-ink-4: #b4bac4;
+  --op-bg: #f6f7f9;
+  --op-surface: #ffffff;
+  --op-surface-2: #f9fafb;
+  --op-hover: #f2f4f7;
+  --op-line: #e4e7ec;
+  --op-line-soft: #eef0f3;
+  --op-overlay: rgb(16 22 32 / 0.36);
+
+  /* Suggestion categories */
+  --op-correctness: #e5484d;
+  --op-correctness-soft: #fdecec;
+  --op-clarity: #1e74fe;
+  --op-clarity-soft: #edf3ff;
+  --op-engagement: #15935a;
+  --op-engagement-soft: #e7f6ee;
+  --op-delivery: #c7620b;
+  --op-delivery-soft: #fdf1e5;
+
+  /* Feedback */
+  --op-success: #15935a;
+  --op-warning: #b45309;
+  --op-danger: #d93036;
+
+  /* Type */
+  --op-font: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --op-font-system:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --op-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --op-text-xs: 12px;
+  --op-text-sm: 13px;
+  --op-text-md: 14px;
+  --op-text-lg: 16px;
+  --op-text-xl: 20px;
+  --op-text-2xl: 24px;
+
+  /* Space (4px grid) */
+  --op-s1: 4px;
+  --op-s2: 8px;
+  --op-s3: 12px;
+  --op-s4: 16px;
+  --op-s5: 20px;
+  --op-s6: 24px;
+  --op-s8: 32px;
+
+  /* Shape */
+  --op-radius-sm: 6px;
+  --op-radius: 8px;
+  --op-radius-lg: 12px;
+  --op-radius-xl: 16px;
+  --op-radius-full: 999px;
+
+  /* Depth: one recipe per level */
+  --op-shadow-1: 0 1px 2px rgb(16 24 40 / 0.06);
+  --op-shadow-2: 0 1px 2px rgb(16 24 40 / 0.06), 0 6px 16px rgb(16 24 40 / 0.1);
+  --op-shadow-3: 0 2px 4px rgb(16 24 40 / 0.06), 0 16px 40px rgb(16 24 40 / 0.16);
+  --op-ring: 0 0 0 3px rgb(30 116 254 / 0.28);
+
+  /* Motion */
+  --op-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --op-fast: 120ms;
+  --op-med: 180ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --op-blue: #3d8bff;
+    --op-blue-hover: #5a9cff;
+    --op-blue-active: #2f7bf0;
+    --op-blue-soft: #16233a;
+    --op-blue-soft-2: #1b2d4b;
+    --op-blue-text: #7fb2ff;
+    --op-ink: #e7eaef;
+    --op-ink-2: #a6aebb;
+    --op-ink-3: #737c8b;
+    --op-ink-4: #4f5765;
+    --op-bg: #0d1015;
+    --op-surface: #151a21;
+    --op-surface-2: #1a2029;
+    --op-hover: #202733;
+    --op-line: #29303b;
+    --op-line-soft: #212730;
+    --op-overlay: rgb(0 0 0 / 0.55);
+    --op-correctness: #ff6b6f;
+    --op-correctness-soft: #3a1c1f;
+    --op-clarity: #5a9cff;
+    --op-clarity-soft: #16233a;
+    --op-engagement: #34c47f;
+    --op-engagement-soft: #13301f;
+    --op-delivery: #f0913d;
+    --op-delivery-soft: #37230f;
+    --op-shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --op-shadow-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 20px rgb(0 0 0 / 0.45);
+    --op-shadow-3: 0 2px 6px rgb(0 0 0 / 0.4), 0 18px 48px rgb(0 0 0 / 0.55);
+    --op-ring: 0 0 0 3px rgb(61 139 255 / 0.4);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"],
+:host([data-theme="dark"]) {
+  --op-blue: #3d8bff;
+  --op-blue-hover: #5a9cff;
+  --op-blue-active: #2f7bf0;
+  --op-blue-soft: #16233a;
+  --op-blue-soft-2: #1b2d4b;
+  --op-blue-text: #7fb2ff;
+  --op-ink: #e7eaef;
+  --op-ink-2: #a6aebb;
+  --op-ink-3: #737c8b;
+  --op-ink-4: #4f5765;
+  --op-bg: #0d1015;
+  --op-surface: #151a21;
+  --op-surface-2: #1a2029;
+  --op-hover: #202733;
+  --op-line: #29303b;
+  --op-line-soft: #212730;
+  --op-overlay: rgb(0 0 0 / 0.55);
+  --op-correctness: #ff6b6f;
+  --op-correctness-soft: #3a1c1f;
+  --op-clarity: #5a9cff;
+  --op-clarity-soft: #16233a;
+  --op-engagement: #34c47f;
+  --op-engagement-soft: #13301f;
+  --op-delivery: #f0913d;
+  --op-delivery-soft: #37230f;
+  --op-shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --op-shadow-2: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 20px rgb(0 0 0 / 0.45);
+  --op-shadow-3: 0 2px 6px rgb(0 0 0 / 0.4), 0 18px 48px rgb(0 0 0 / 0.55);
+  --op-ring: 0 0 0 3px rgb(61 139 255 / 0.4);
+  color-scheme: dark;
+}
