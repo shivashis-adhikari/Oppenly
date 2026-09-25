@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Oppenly: free, private grammar checker and writing assistant</title>
+    <meta
+      name="description"
+      content="Oppenly checks spelling, grammar, clarity and tone as you write on almost any website. It runs on your device, needs no account and is open source."
+    />
+    <link rel="canonical" href="https://shivashis-adhikari.github.io/Oppenly/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Oppenly: writing help that stays on your computer" />
+    <meta
+      property="og:description"
+      content="Spelling, grammar, clarity and tone suggestions on almost any website. Runs on your device. Free and open source."
+    />
+    <meta property="og:url" content="https://shivashis-adhikari.github.io/Oppenly/" />
+    <meta property="og:image" content="https://shivashis-adhikari.github.io/Oppenly/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="module" src="/src/site.ts"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="nav">
+      <div class="nav__inner">
+        <a class="brand" href="./" aria-label="Oppenly home">
+          <img src="/favicon.svg" alt="" width="28" height="28" />
+          <span>Oppenly</span>
+        </a>
+        <nav class="nav__links" aria-label="Main">
+          <a href="#checks">What it checks</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#web-app">Web app</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://github.com/shivashis-adhikari/Oppenly">GitHub</a>
+        </nav>
+        <a class="btn btn--primary btn--sm nav__cta" href="https://github.com/shivashis-adhikari/Oppenly#install" data-install>
+          Get the extension
+        </a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="wrap hero__grid">
+          <div class="hero__text">
+            <h1>Writing help that never leaves your computer.</h1>
+            <p class="lead">
+              Oppenly underlines spelling, grammar, clarity and tone problems as you type on almost
+              any website, and fixes them in one click. It runs entirely in your browser. Free and
+              open source.
+            </p>
+            <div class="actions">
+              <a class="btn btn--primary" href="https://github.com/shivashis-adhikari/Oppenly#install" data-install>
+                Get the extension for Chrome
+              </a>
+              <a class="btn btn--secondary" href="https://github.com/shivashis-adhikari/Oppenly">
+                View the source
+              </a>
+            </div>
+            <ul class="facts" aria-label="At a glance">
+              <li>No account</li>
+              <li>No tracking</li>
+              <li>Works offline</li>
+            </ul>
+          </div>
+          <figure class="shot shot--hero">
+            <img
+              src="/screens/extension-card.webp"
+              width="1876"
+              height="1136"
+              alt="An email draft with coloured underlines. A card explains that “results” is plural and offers the fix “are”."
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section id="checks" class="section">
+        <div class="wrap">
+          <h2>Four kinds of suggestions</h2>
+          <p class="section__lead">
+            The same categories you may know from other writing assistants, each with its own
+            colour. These examples come straight from Oppenly’s checks.
+          </p>
+          <div class="cats">
+            <article class="cat" data-cat="correctness">
+              <h3>Correctness</h3>
+              <p>Spelling, grammar and punctuation.</p>
+              <ul class="swaps">
+                <li><del>Me and Priya</del> <ins>Priya and I</ins></li>
+                <li><del>the results is</del> <ins>the results are</ins></li>
+                <li><del>tommorow</del> <ins>tomorrow</ins></li>
+              </ul>
+            </article>
+            <article class="cat" data-cat="clarity">
+              <h3>Clarity</h3>
+              <p>Wordy phrases, passive voice and hard-to-read sentences.</p>
+              <ul class="swaps">
+                <li><del>in order to</del> <ins>to</ins></li>
+                <li><del>make a decision</del> <ins>decide</ins></li>
+                <li><del>The report was written by the team</del> <ins>The team wrote the report</ins></li>
+              </ul>
+            </article>
+            <article class="cat" data-cat="engagement">
+              <h3>Engagement</h3>
+              <p>Bland, overused and repeated words.</p>
+              <ul class="swaps">
+                <li><del>really good</del> <ins>excellent</ins></li>
+                <li><del>very important</del> <ins>crucial</ins></li>
+                <li><del>very bad</del> <ins>terrible</ins></li>
+              </ul>
+            </article>
+            <article class="cat" data-cat="delivery">
+              <h3>Delivery</h3>
+              <p>Tone, confidence and politeness, tuned to your goals.</p>
+              <ul class="swaps">
+                <li><del>Sorry for the late reply</del> <ins>Thank you for your patience</ins></li>
+                <li><del>I was wondering if you could</del> <ins>Could you</ins></li>
+                <li><del>Hey guys</del> <ins>Hi everyone</ins></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tint">
+        <div class="wrap feature">
+          <div class="feature__text">
+            <h2>Every suggestion in one place</h2>
+            <p>
+              Click the Oppenly button in the corner of a text box to see all suggestions for it.
+              Accept every spelling and grammar fix at once, or go through them one by one. The
+              Insights tab shows the tone of your text, reading time and an overall score.
+            </p>
+          </div>
+          <figure class="shot">
+            <img
+              src="/screens/extension-sidebar.webp"
+              width="2400"
+              height="1520"
+              loading="lazy"
+              alt="The Oppenly assistant panel listing eight suggestions next to an email draft, with an Accept all button for correctness fixes."
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap feature feature--flip">
+          <div class="feature__text">
+            <h2>Rewrite a sentence</h2>
+            <p>
+              Select text to shorten it or make it more formal, friendlier or more confident. These
+              rewrites run on your device. Connect an AI provider to add options like “improve”,
+              “expand” and your own instructions.
+            </p>
+          </div>
+          <figure class="shot">
+            <img
+              src="/screens/extension-rewrite.webp"
+              width="1352"
+              height="1136"
+              loading="lazy"
+              alt="A selected paragraph with a Shorten popup showing a shorter version and Replace and Insert below buttons."
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section class="section section--tint">
+        <div class="wrap feature">
+          <div class="feature__text">
+            <h2>Off when you want it off</h2>
+            <p>
+              Pause Oppenly for an hour, turn it off on one site or everywhere, straight from the
+              button in the text box. It stays out of code editors and password fields.
+            </p>
+          </div>
+          <figure class="shot">
+            <img
+              src="/screens/extension-menu.webp"
+              width="1352"
+              height="1136"
+              loading="lazy"
+              alt="The Oppenly button menu with Pause for 1 hour, Turn off on this site, Turn off everywhere and Settings."
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section id="privacy" class="section">
+        <div class="wrap">
+          <h2>Your writing stays yours</h2>
+          <p class="section__lead">
+            Most writing assistants send everything you type to their servers. Oppenly doesn’t
+            have servers.
+          </p>
+          <div class="points">
+            <div class="point">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 9h9A1.5 1.5 0 0 1 16 10.5v5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 4 15.5v-5A1.5 1.5 0 0 1 5.5 9ZM7 9V6.5a3 3 0 0 1 6 0V9" /></svg>
+              <h3>Checked on your device</h3>
+              <p>
+                The grammar engine and Oppenly’s style rules run inside your browser. Your text is
+                never sent anywhere to be checked.
+              </p>
+            </div>
+            <div class="point">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2.8 4 5v4.6c0 3.6 2.6 6.4 6 7.6 3.4-1.2 6-4 6-7.6V5l-6-2.2ZM7.5 10l1.8 1.8 3.2-3.3" /></svg>
+              <h3>No account, no analytics</h3>
+              <p>
+                There is nothing to sign up for. Oppenly collects no usage data, sets no cookies and
+                shows no ads.
+              </p>
+            </div>
+            <div class="point">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 11a3.5 3.5 0 1 0-3.4-2.7L3.5 14v2.5H6v-1.5h1.5v-1.5H9l1.2-1.2a3.5 3.5 0 0 0 2.3.7ZM13.5 6.5h.01" /></svg>
+              <h3>AI only if you ask for it</h3>
+              <p>
+                Connect an AI provider with your own key, or a model on your computer. Oppenly asks
+                for your consent first and sends text only to the provider you chose.
+              </p>
+            </div>
+            <div class="point">
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 6-4 4 4 4M13 6l4 4-4 4" /></svg>
+              <h3>Open source</h3>
+              <p>
+                All of the code is public under the Apache 2.0 license, so anyone can check these
+                claims.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tint">
+        <div class="wrap feature feature--flip">
+          <div class="feature__text">
+            <h2>Use the AI you already pay for</h2>
+            <p>
+              Oppenly works without AI. When you want context-aware suggestions and full rewrites,
+              pick a provider and paste your key. There is no prompt limit: you pay the provider
+              for what you use, or nothing if the model runs on your computer.
+            </p>
+            <ul class="chips" aria-label="Supported AI providers">
+              <li>OpenAI</li>
+              <li>Anthropic</li>
+              <li>Google Gemini</li>
+              <li>xAI</li>
+              <li>Mistral AI</li>
+              <li>DeepSeek</li>
+              <li>Groq</li>
+              <li>Cerebras</li>
+              <li>OpenRouter</li>
+              <li>Together AI</li>
+              <li>Fireworks AI</li>
+              <li>Perplexity</li>
+              <li>Cohere</li>
+              <li>Azure OpenAI</li>
+              <li>Amazon Bedrock</li>
+              <li>Moonshot AI</li>
+              <li>Alibaba Qwen</li>
+              <li class="chips__local">Chrome built-in AI</li>
+              <li class="chips__local">Ollama</li>
+              <li class="chips__local">LM Studio</li>
+              <li class="chips__local">llama.cpp</li>
+            </ul>
+            <p class="small">
+              Plus any server compatible with the OpenAI, Anthropic or Gemini APIs. Providers in
+              blue run on your computer.
+            </p>
+          </div>
+          <figure class="shot">
+            <img
+              src="/screens/extension-providers.webp"
+              width="2560"
+              height="1720"
+              loading="lazy"
+              alt="Oppenly’s AI provider settings with cards for local models, 17 cloud providers and custom servers."
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section id="web-app" class="section">
+        <div class="wrap">
+          <h2>A full editor, on your machine</h2>
+          <p class="section__lead">
+            The Oppenly web app is a document editor with the same checks, plus goals, performance
+            stats, formatting, and Word, OpenDocument and Markdown import and export. It runs from
+            the source code on your own computer and keeps documents in your browser.
+          </p>
+          <figure class="shot shot--wide">
+            <img
+              src="/screens/web-editor-light.webp"
+              width="2880"
+              height="1800"
+              loading="lazy"
+              alt="The Oppenly web app: a document with underlined suggestions and an assistant panel with category counts and an expanded suggestion card."
+            />
+          </figure>
+          <div class="run">
+            <div>
+              <h3>Run it</h3>
+              <p class="small">
+                Needs <a href="https://nodejs.org/">Node.js 20</a> or later and
+                <a href="https://pnpm.io/installation">pnpm</a>. Then open
+                <code>http://localhost:4870</code>.
+              </p>
+            </div>
+            <div class="code">
+              <pre><code>git clone https://github.com/shivashis-adhikari/Oppenly.git
+cd Oppenly
+pnpm install
+pnpm web</code></pre>
+              <button type="button" class="code__copy" data-copy>Copy</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--tint">
+        <div class="wrap">
+          <h2>How Oppenly compares with Grammarly</h2>
+          <p class="section__lead">
+            Grammarly does more in some places: it checks for plagiarism and works in desktop apps
+            and Google Docs. Here is where the two differ most.
+          </p>
+          <div class="table-wrap">
+            <table class="compare">
+              <thead>
+                <tr>
+                  <th scope="col"><span class="sr-only">Feature</span></th>
+                  <th scope="col" class="compare__us">Oppenly</th>
+                  <th scope="col">Grammarly Free</th>
+                  <th scope="col">Grammarly Pro</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Price</th>
+                  <td class="compare__us">Free</td>
+                  <td>Free</td>
+                  <td>$12 a month billed yearly, or $30 monthly</td>
+                </tr>
+                <tr>
+                  <th scope="row">Account needed</th>
+                  <td class="compare__us">No</td>
+                  <td>Yes</td>
+                  <td>Yes</td>
+                </tr>
+                <tr>
+                  <th scope="row">Where your text is checked</th>
+                  <td class="compare__us">On your device</td>
+                  <td>On Grammarly’s servers</td>
+                  <td>On Grammarly’s servers</td>
+                </tr>
+                <tr>
+                  <th scope="row">AI prompts</th>
+                  <td class="compare__us">No limit, with your own provider</td>
+                  <td>100 a month</td>
+                  <td>2,000 a month</td>
+                </tr>
+                <tr>
+                  <th scope="row">Choose your AI model, or run one locally</th>
+                  <td class="compare__us">Yes</td>
+                  <td>No</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <th scope="row">Source code</th>
+                  <td class="compare__us">Public (Apache 2.0)</td>
+                  <td>Closed</td>
+                  <td>Closed</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="fine">
+            Grammarly details are from its public plan information as of September 2026 and may
+            change. Grammarly is a trademark of its owner. Oppenly is an independent project and is
+            not affiliated with or endorsed by Grammarly.
+          </p>
+        </div>
+      </section>
+
+      <section id="faq" class="section">
+        <div class="wrap wrap--narrow">
+          <h2>Questions</h2>
+          <details>
+            <summary>Is Oppenly really free?</summary>
+            <p>
+              Yes. There is no paid plan, no ads and nothing to sell. If you connect a cloud AI
+              provider, that provider bills you directly for what you use.
+            </p>
+          </details>
+          <details>
+            <summary>Does it work offline?</summary>
+            <p>
+              Yes. Checking and the built-in rewrites work without an internet connection. Only
+              cloud AI providers need one.
+            </p>
+          </details>
+          <details>
+            <summary>Where does it work?</summary>
+            <p>
+              In text boxes and rich-text editors on most websites: email, social media, chat,
+              forms and content tools. It does not work in Google Docs yet, because Google Docs
+              draws text in its own way and only allows approved extensions to read documents.
+            </p>
+          </details>
+          <details>
+            <summary>Which languages does it check?</summary>
+            <p>English, in American, British, Canadian, Australian or Indian spelling.</p>
+          </details>
+          <details>
+            <summary>What does an AI provider receive?</summary>
+            <p>
+              Only the text you check or rewrite and instructions for the task, sent with your key
+              to the address you set up. Nothing else from the page or your browser. You can remove
+              a provider at any time.
+            </p>
+          </details>
+          <details>
+            <summary>Which browsers are supported?</summary>
+            <p>
+              Chrome, and browsers built on it such as Microsoft Edge and Brave. The web app runs in
+              any modern browser.
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer__inner">
+        <div class="footer__brand">
+          <a class="brand" href="./">
+            <img src="/favicon.svg" alt="" width="24" height="24" />
+            <span>Oppenly</span>
+          </a>
+          <p class="small">A free, open-source writing assistant.</p>
+        </div>
+        <nav class="footer__links" aria-label="Footer">
+          <a href="privacy.html">Privacy policy</a>
+          <a href="https://github.com/shivashis-adhikari/Oppenly">Source code</a>
+          <a href="https://github.com/shivashis-adhikari/Oppenly/issues">Report a problem</a>
+          <a href="https://github.com/shivashis-adhikari/Oppenly/blob/main/LICENSE">License</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
