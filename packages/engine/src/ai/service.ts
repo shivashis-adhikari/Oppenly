@@ -1,18 +1,20 @@
-import type { Dialect, Goals, Suggestion } from '@oppenly/engine';
-import { hash } from '@oppenly/engine';
-import {
-  aiCheck,
-  aiRewrite,
-  chat,
-  getPreset,
-  listModels,
-  onDeviceAvailability,
-  type ProviderConfig,
-  type RewriteMode,
-} from '@oppenly/engine/ai';
-import { getProvider } from '@oppenly/engine/vault';
-import type { AiStatus } from '../shared/messages';
-import type { Settings } from '../shared/settings';
+import type { Dialect, Goals, Suggestion } from '../types';
+import { hash } from '../util/text';
+import { getProvider } from '../vault';
+import { chat, listModels } from './client';
+import { onDeviceAvailability } from './on-device';
+import type { RewriteMode } from './prompts';
+import { getPreset, type ProviderConfig } from './providers';
+import { aiCheck, aiRewrite } from './tasks';
+
+export interface AiStatus {
+  /** A provider is chosen, consented to and has a model. */
+  ready: boolean;
+  /** Display name, e.g. "OpenAI" or "Chrome built-in AI". */
+  provider: string | null;
+  /** The provider runs on this computer (nothing leaves the device). */
+  local: boolean;
+}
 
 interface CachedEdits {
   /** Suggestions with offsets relative to the paragraph. */
@@ -22,12 +24,29 @@ interface CachedEdits {
 
 const CACHE_LIMIT = 400;
 
+/** Paragraphs worth sending: three words or more. */
+function splitForCheck(text: string): { text: string; start: number }[] {
+  const paragraphs: { text: string; start: number }[] = [];
+  const re = /[^\n]+/g;
+  for (let m = re.exec(text); m; m = re.exec(text)) {
+    if (m[0].trim().split(/\s+/).length >= 3) paragraphs.push({ text: m[0], start: m.index });
+  }
+  return paragraphs;
+}
+
+function cacheKey(config: ProviderConfig, goals: Goals, dialect: Dialect) {
+  return (paragraph: string) =>
+    hash(
+      `${config.presetId}|${config.checkModel}|${dialect}|${JSON.stringify(goals)}|${paragraph}`,
+    );
+}
+
 /** Orchestrates optional AI features. Never runs unless a provider is configured and consented. */
 export class AiService {
   private cache = new Map<string, CachedEdits>();
 
-  async config(settings: Settings): Promise<ProviderConfig | null> {
-    const id = settings.ai.provider;
+  /** The usable configuration for provider `id`, or null if it is missing or lacks consent. */
+  async config(id: string | null): Promise<ProviderConfig | null> {
     if (!id) return null;
     if (id === 'on-device') {
       return {
@@ -48,15 +67,14 @@ export class AiService {
     return config;
   }
 
-  async status(settings: Settings): Promise<AiStatus> {
-    const id = settings.ai.provider;
+  async status(id: string | null): Promise<AiStatus> {
     const preset = id ? getPreset(id) : undefined;
     if (!preset) return { ready: false, provider: null, local: true };
     if (id === 'on-device') {
       const availability = await onDeviceAvailability();
       return { ready: availability === 'available', provider: preset.name, local: true };
     }
-    const config = await this.config(settings);
+    const config = await this.config(id);
     return { ready: Boolean(config), provider: preset.name, local: preset.local };
   }
 
@@ -71,13 +89,8 @@ export class AiService {
     dialect: Dialect,
     signal: AbortSignal,
   ): Promise<Suggestion[]> {
-    const paragraphs: { text: string; start: number }[] = [];
-    const re = /[^\n]+/g;
-    for (let m = re.exec(text); m; m = re.exec(text)) {
-      if (m[0].trim().split(/\s+/).length >= 3) paragraphs.push({ text: m[0], start: m.index });
-    }
-    const keyFor = (p: string) =>
-      hash(`${config.presetId}|${config.checkModel}|${dialect}|${JSON.stringify(goals)}|${p}`);
+    const paragraphs = splitForCheck(text);
+    const keyFor = cacheKey(config, goals, dialect);
     const missing = paragraphs.filter((p) => !this.cache.has(keyFor(p.text))).slice(0, 8);
 
     // Two requests at a time keeps latency low without hammering rate limits.
@@ -97,9 +110,14 @@ export class AiService {
         .slice(0, this.cache.size - CACHE_LIMIT);
       for (const [k] of oldest) this.cache.delete(k);
     }
+    return this.cached(text, config, goals, dialect);
+  }
 
+  /** Suggestions already known for `text`, without contacting the provider. */
+  cached(text: string, config: ProviderConfig, goals: Goals, dialect: Dialect): Suggestion[] {
+    const keyFor = cacheKey(config, goals, dialect);
     const out: Suggestion[] = [];
-    for (const p of paragraphs) {
+    for (const p of splitForCheck(text)) {
       const cached = this.cache.get(keyFor(p.text));
       if (!cached) continue;
       for (const s of cached.items)

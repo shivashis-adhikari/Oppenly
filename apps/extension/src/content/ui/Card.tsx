@@ -1,10 +1,9 @@
 import type { Suggestion } from '@oppenly/engine';
-import { CATEGORY_LABEL, Icon } from '@oppenly/ui';
+import { CATEGORY_LABEL, diffWords, Icon } from '@oppenly/ui';
 import { useState } from 'preact/hooks';
 import { addToDictionary, disableRule, openSidebar } from '../actions';
 import type { Session } from '../session';
 import { aiStatus, card, frame, sessionById } from '../store';
-import { diffWords } from './diff';
 import { place } from './geometry';
 
 const WIDTH = 320;

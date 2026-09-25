@@ -1,3 +1,4 @@
+import type { LocalRewriteMode } from '../labels';
 import { capitalize, escapeRegExp, matchCase } from '../util/text';
 import {
   CLICHES,
@@ -9,17 +10,6 @@ import {
   REDUNDANT,
   WORDY,
 } from './data/phrases';
-
-/** Rewrite modes available without any AI. */
-export type LocalRewriteMode = 'shorten' | 'formal' | 'friendly' | 'confident' | 'simplify';
-
-export const LOCAL_REWRITE_LABELS: Record<LocalRewriteMode, string> = {
-  shorten: 'Shorten it',
-  formal: 'Sound formal',
-  friendly: 'Sound friendly',
-  confident: 'Sound confident',
-  simplify: 'Simplify it',
-};
 
 function tableRegex(table: PhraseTable): RegExp {
   const keys = Object.keys(table).sort((a, b) => b.length - a.length);

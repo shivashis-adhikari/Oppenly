@@ -32,14 +32,9 @@ export type ServerMessage =
   | { t: 'rewrite-error'; req: string; message: string }
   | { t: 'status'; ai: AiStatus };
 
-export interface AiStatus {
-  /** A provider is configured, consented to and ready. */
-  ready: boolean;
-  /** Display name, e.g. "OpenAI" or "Chrome built-in AI". */
-  provider: string | null;
-  /** True when the configured provider runs on this computer. */
-  local: boolean;
-}
+import type { AiStatus } from '@oppenly/engine/ai';
+
+export type { AiStatus };
 
 /** One-off messages from any extension context to the background. */
 export type RuntimeRequest =

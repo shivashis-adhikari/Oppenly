@@ -165,18 +165,42 @@ export function Modal({
   width?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  // Keep the latest handler without re-running the focus effect on every render.
+  const close = useRef(onClose);
+  close.current = onClose;
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        close.current();
+      } else if (e.key === 'Tab' && ref.current) {
+        // Keep keyboard focus inside the dialog.
+        const items = Array.from(
+          ref.current.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])',
+          ),
+        ).filter((el) => el.offsetParent !== null);
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (!first || !last) return;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener('keydown', onKey);
     const previous = document.activeElement as HTMLElement | null;
-    ref.current?.focus();
+    // Respect a field that focused itself (autoFocus); otherwise focus the dialog.
+    if (!ref.current?.contains(document.activeElement)) ref.current?.focus();
     return () => {
       document.removeEventListener('keydown', onKey);
       previous?.focus?.();
     };
-  }, [onClose]);
+  }, []);
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: clicking outside closes; Escape and the Close button do the same
     <div
@@ -207,7 +231,8 @@ export function Modal({
 
 /** Circular score indicator, 0–100. */
 export function ScoreRing({ score, size = 44 }: { score: number | null; size?: number }) {
-  const stroke = size >= 56 ? 5 : 4;
+  const small = size <= 32;
+  const stroke = size >= 56 ? 5 : small ? 3 : 4;
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const value = score ?? 0;
@@ -248,7 +273,9 @@ export function ScoreRing({ score, size = 44 }: { score: number | null; size?: n
           style={{ transition: 'stroke-dasharray 400ms var(--op-ease)' }}
         />
       </svg>
-      <span style={{ fontSize: `${Math.round(size * 0.32)}px` }}>{score ?? '–'}</span>
+      <span style={{ fontSize: `${Math.round(size * (small ? 0.38 : 0.32))}px` }}>
+        {score ?? '–'}
+      </span>
     </div>
   );
 }

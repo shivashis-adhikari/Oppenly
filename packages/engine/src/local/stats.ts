@@ -59,18 +59,3 @@ export function computeStats(text: string, paragraphs: Paragraph[]): TextStats {
 }
 
 /** Human-friendly duration: "12 sec", "3 min 5 sec". */
-export function formatDuration(seconds: number): string {
-  if (seconds < 60) return `${seconds} sec`;
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return s ? `${m} min ${s} sec` : `${m} min`;
-}
-
-export function readabilityLabel(score: number): string {
-  if (score >= 80) return 'Very easy to read';
-  if (score >= 70) return 'Easy to read';
-  if (score >= 60) return 'Plain English';
-  if (score >= 50) return 'Fairly difficult';
-  if (score >= 30) return 'Difficult';
-  return 'Very difficult';
-}

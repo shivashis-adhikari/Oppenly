@@ -20,6 +20,16 @@ export class ProviderError extends Error {
   }
 }
 
+/** Sends one HTTP request. Defaults to `fetch`; the local web app routes through its relay. */
+export type Transport = (url: string, init: RequestInit) => Promise<Response>;
+
+let transport: Transport = (url, init) => fetch(url, init);
+
+/** Replace how provider requests are sent. Consent and address checks still run first. */
+export function setTransport(next: Transport): void {
+  transport = next;
+}
+
 export interface ChatRequest {
   system: string;
   user: string;
@@ -113,7 +123,7 @@ function normalizeBase(url: string): string {
 async function request(url: string, init: RequestInit): Promise<Response> {
   let res: Response;
   try {
-    res = await fetch(url, { ...init, credentials: 'omit', referrerPolicy: 'no-referrer' });
+    res = await transport(url, { ...init, credentials: 'omit', referrerPolicy: 'no-referrer' });
   } catch (err) {
     if ((err as Error).name === 'AbortError') throw err;
     throw new ProviderError(

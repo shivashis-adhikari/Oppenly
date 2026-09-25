@@ -167,6 +167,17 @@ textarea {
   background: var(--op-correctness-soft);
 }
 
+/* For the confirming button of a destructive action. */
+.op-btn--danger-solid {
+  background: var(--op-danger);
+  border-color: var(--op-danger);
+  color: #fff;
+}
+
+.op-btn--danger-solid:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--op-danger) 88%, black);
+}
+
 .op-btn--sm {
   height: 30px;
   padding: 0 var(--op-s3);
@@ -384,18 +395,22 @@ textarea {
   background: var(--op-ink-3);
 }
 
+.op-dot[data-cat="correctness"],
 .op-dot--correctness {
   background: var(--op-correctness);
 }
 
+.op-dot[data-cat="clarity"],
 .op-dot--clarity {
   background: var(--op-clarity);
 }
 
+.op-dot[data-cat="engagement"],
 .op-dot--engagement {
   background: var(--op-engagement);
 }
 
+.op-dot[data-cat="delivery"],
 .op-dot--delivery {
   background: var(--op-delivery);
 }

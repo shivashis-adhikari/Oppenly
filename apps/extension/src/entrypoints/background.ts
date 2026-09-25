@@ -1,8 +1,7 @@
 import { Engine, type LocalRewriteMode, localRewrite, RULE_INFO } from '@oppenly/engine';
-import { getPreset, type RewriteMode } from '@oppenly/engine/ai';
+import { AiService, getPreset, type RewriteMode } from '@oppenly/engine/ai';
 import { getProvider } from '@oppenly/engine/vault';
 import { createBinaryModuleFromUrl } from 'harper.js';
-import { AiService } from '../background/ai-service';
 import {
   type ClientMessage,
   PORT_NAME,
@@ -82,7 +81,7 @@ export default defineBackground({
         const s = await currentSettings();
 
         if (msg.t === 'status') {
-          send({ t: 'status', ai: await ai.status(s) });
+          send({ t: 'status', ai: await ai.status(s.ai.provider) });
           return;
         }
 
@@ -91,7 +90,7 @@ export default defineBackground({
           const e = await getEngine();
           const goals = goalsFor(s, msg.host);
           const local = await e.analyze(msg.text, [], goals);
-          const config = s.ai.liveCheck ? await ai.config(s) : null;
+          const config = s.ai.liveCheck ? await ai.config(s.ai.provider) : null;
           send({
             t: 'analysis',
             field: msg.field,
@@ -145,7 +144,7 @@ export default defineBackground({
           const controller = new AbortController();
           rewrites.set(msg.req, controller);
           try {
-            const config = await ai.config(s);
+            const config = await ai.config(s.ai.provider);
             const goals = goalsFor(s, msg.host);
             if (config) {
               const text = await ai.rewrite(
@@ -195,7 +194,7 @@ export default defineBackground({
         const s = await currentSettings();
         switch (msg.t) {
           case 'ai-status':
-            return ai.status(s);
+            return ai.status(s.ai.provider);
           case 'rule-info':
             return RULE_INFO;
           case 'open-options':
