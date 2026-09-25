@@ -1769,13 +1769,35 @@ body {
 
 @media (max-width: 1100px) {
   .ox-panel {
+    width: 340px;
+  }
+
+  .ox-page {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+/* Narrow screens: the assistant opens over the text. */
+@media (max-width: 900px) {
+  .ox-panel {
     position: fixed;
     top: 56px;
     right: 0;
     bottom: 0;
     z-index: 40;
-    max-width: calc(100vw - 24px);
+    width: min(384px, 100vw);
     box-shadow: var(--op-shadow-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .ox-panel__tab svg {
+    display: none;
+  }
+
+  .ox-panel__tab {
+    padding: 0 8px;
   }
 }
 
@@ -1853,8 +1875,7 @@ body {
   }
 
   .ox-save,
-  .ox-top__back span,
-  .ox-top__score span {
+  .ox-top__label {
     display: none;
   }
 

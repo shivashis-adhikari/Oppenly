@@ -137,7 +137,7 @@ function TopBar({ session }: { session: DocSession }) {
     <header class="ox-top">
       <a class="ox-top__back" href="#/" title="All documents">
         <Icon name="chevronLeft" size={18} />
-        <span>Documents</span>
+        <span class="ox-top__label">Documents</span>
       </a>
       <span class="ox-save" data-state={save} aria-live="polite">
         {save === 'saving'
@@ -159,7 +159,7 @@ function TopBar({ session }: { session: DocSession }) {
         onClick={() => openDialog({ kind: 'performance' })}
       >
         <ScoreRing score={analysis?.score ?? null} size={32} />
-        <span>Overall score</span>
+        <span class="ox-top__label">Overall score</span>
       </button>
 
       <Menu label="Document menu" trigger={<Icon name="more" size={18} />}>

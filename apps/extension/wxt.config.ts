@@ -19,7 +19,7 @@ export default defineConfig({
     name: 'Oppenly: Grammar Checker & Writing Assistant',
     short_name: 'Oppenly',
     description:
-      'Grammar, clarity and tone suggestions on every website. Runs on your device. Free and open source.',
+      'Grammar, clarity and tone suggestions on almost any website. Runs on your device. Free and open source.',
     homepage_url: REPO,
     ...(browser === 'firefox'
       ? {

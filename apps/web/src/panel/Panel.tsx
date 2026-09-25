@@ -11,7 +11,7 @@ export type PanelTab = 'suggestions' | 'rewrite' | 'insights';
 const KEY = 'oppenly.panel';
 
 function initial(): { open: boolean; tab: PanelTab } {
-  const wide = window.innerWidth >= 1100;
+  const wide = window.innerWidth > 900;
   try {
     const saved = JSON.parse(localStorage.getItem(KEY) ?? 'null') as { open: boolean } | null;
     return { open: wide && (saved?.open ?? true), tab: 'suggestions' };

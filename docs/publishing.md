@@ -54,7 +54,7 @@ The name and summary come from the package:
 | Field | Value |
 | --- | --- |
 | Name | Oppenly: Grammar Checker & Writing Assistant |
-| Summary | Grammar, clarity and tone suggestions on every website. Runs on your device. Free and open source. |
+| Summary | Grammar, clarity and tone suggestions on almost any website. Runs on your device. Free and open source. |
 
 **Description** (paste as is; the store shows plain text):
 

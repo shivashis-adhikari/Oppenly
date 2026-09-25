@@ -69,8 +69,8 @@ function Welcome() {
       <section class="wl-hero">
         <h1>Oppenly is ready.</h1>
         <p>
-          It checks your writing in text boxes on the sites you use: email, documents, social posts
-          and forms. All checks run on this computer.
+          It checks your writing in text boxes on the sites you use: email, social posts, chats and
+          forms. All checks run on this computer.
         </p>
       </section>
 
