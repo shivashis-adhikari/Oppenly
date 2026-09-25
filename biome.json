@@ -2,7 +2,17 @@
   "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
-    "includes": ["**", "!**/dist", "!**/.output", "!**/.wxt", "!**/node_modules", "!**/*.json", "!**/data/*.ts"]
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/.output",
+      "!**/.wxt",
+      "!**/node_modules",
+      "!**/*.json",
+      "!**/*.svg",
+      "!**/tests/pages",
+      "!**/data/*.ts"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -32,5 +42,16 @@
       }
     }
   },
-  "css": { "formatter": { "enabled": true }, "linter": { "enabled": true } }
+  "css": { "formatter": { "enabled": true }, "linter": { "enabled": true } },
+  "overrides": [
+    {
+      "includes": ["**/*.css"],
+      "linter": {
+        "rules": {
+          "complexity": { "noImportantStyles": "off" },
+          "style": { "noDescendingSpecificity": "off" }
+        }
+      }
+    }
+  ]
 }
