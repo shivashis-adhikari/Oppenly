@@ -1,0 +1,38 @@
+name: Wrong or missing suggestion
+description: Oppenly flagged correct text, missed a mistake, or suggested a bad fix.
+labels: [suggestions]
+body:
+  - type: textarea
+    id: text
+    attributes:
+      label: The sentence
+      description: The exact text, or a shorter version that shows the same problem. Remove anything private.
+    validations:
+      required: true
+  - type: textarea
+    id: got
+    attributes:
+      label: What Oppenly suggested
+      description: The card title and the suggested fix, or "nothing" if it missed a mistake.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Where the suggestion came from
+      description: Shown at the bottom of the card.
+      options:
+        - On this device
+        - An AI provider
+        - Not sure
+  - type: input
+    id: variety
+    attributes:
+      label: English variety and goals
+      placeholder: American English, default goals

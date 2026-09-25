@@ -20,7 +20,16 @@ const backend: ProviderBackend = {
   get: getProvider,
   save: saveProvider,
   remove: deleteProvider,
-  requestAccess: (pattern) => browser.permissions.request({ origins: [pattern] }),
+  requestAccess: (pattern) =>
+    browser.permissions.request(
+      import.meta.env.FIREFOX
+        ? // Firefox also asks the user to allow sending text to a third party.
+          ({
+            origins: [pattern],
+            data_collection: ['websiteContent', 'personalCommunications'],
+          } as Parameters<typeof browser.permissions.request>[0])
+        : { origins: [pattern] },
+    ),
   releaseAccess: async (pattern) => {
     await browser.permissions.remove({ origins: [pattern] });
   },

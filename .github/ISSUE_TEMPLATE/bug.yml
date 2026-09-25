@@ -1,0 +1,23 @@
+name: Something is broken
+description: A problem with the extension, the web app or the website.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: The website or app where it happened, or "web app".
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: Oppenly 1.0.0, Chrome 140 on Windows 11
+    validations:
+      required: true

@@ -7,17 +7,36 @@ export default defineConfig({
   srcDir: 'src',
   outDir: '.output',
   manifestVersion: 3,
+  zip: {
+    artifactTemplate: 'oppenly-{{version}}-{{browser}}.zip',
+    sourcesTemplate: 'oppenly-{{version}}-sources.zip',
+  },
   vite: () => ({
     plugins: [preact()],
     build: { sourcemap: false, chunkSizeWarningLimit: 4096 },
   }),
-  manifest: {
+  manifest: ({ browser }) => ({
     name: 'Oppenly: Grammar Checker & Writing Assistant',
     short_name: 'Oppenly',
     description:
       'Grammar, clarity and tone suggestions on every website. Runs on your device. Free and open source.',
     homepage_url: REPO,
-    minimum_chrome_version: '120',
+    ...(browser === 'firefox'
+      ? {
+          browser_specific_settings: {
+            gecko: {
+              id: 'oppenly@shivashis-adhikari.github.io',
+              strict_min_version: '140.0',
+              // Nothing is collected by default. Text goes to an AI provider only after the user
+              // adds one and agrees; the settings page asks for this permission at that moment.
+              data_collection_permissions: {
+                required: ['none'],
+                optional: ['websiteContent', 'personalCommunications'],
+              },
+            },
+          },
+        }
+      : { minimum_chrome_version: '120' }),
     permissions: ['storage', 'contextMenus'],
     // Requested one origin at a time, only when the user adds an AI provider.
     optional_host_permissions: ['https://*/*', 'http://localhost/*', 'http://127.0.0.1/*'],
@@ -39,5 +58,5 @@ export default defineConfig({
         description: 'Turn Oppenly on or off for the current site',
       },
     },
-  },
+  }),
 });

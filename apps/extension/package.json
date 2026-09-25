@@ -11,7 +11,7 @@
     "build:firefox": "pnpm prepare-assets && wxt build -b firefox",
     "zip": "pnpm prepare-assets && wxt zip",
     "zip:firefox": "pnpm prepare-assets && wxt zip -b firefox",
-    "typecheck": "wxt prepare && tsc --noEmit",
+    "typecheck": "pnpm prepare-assets && wxt prepare && tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "postinstall": "wxt prepare"

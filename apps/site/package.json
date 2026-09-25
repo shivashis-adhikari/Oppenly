@@ -9,7 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "screenshots": "node scripts/screenshots.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "store-assets": "node scripts/store-assets.mjs"
   },
   "dependencies": {
     "@oppenly/ui": "workspace:*"

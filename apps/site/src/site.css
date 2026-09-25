@@ -728,6 +728,15 @@ details p {
   background: var(--op-bg);
 }
 
+.doc .columns {
+  columns: 2;
+  column-gap: 32px;
+}
+
+.doc .columns li {
+  break-inside: avoid;
+}
+
 /* Smaller screens */
 @media (max-width: 1000px) {
   .hero__grid,
@@ -777,6 +786,10 @@ details p {
   .cats,
   .points {
     grid-template-columns: 1fr;
+  }
+
+  .doc .columns {
+    columns: 1;
   }
 
   .shot,
